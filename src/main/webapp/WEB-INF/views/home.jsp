@@ -4,6 +4,6 @@
 <title>Welcome</title>
 </head>
 <body>
-<h2>Welcome to Court Reservation System</h2>
+<h2>Welcome to Mini social</h2>
 </body>
 </html>

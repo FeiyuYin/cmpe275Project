@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import edu.sjsu.cmpe275.model.Address;
 import edu.sjsu.cmpe275.model.Organization;
 import edu.sjsu.cmpe275.model.Person;
@@ -24,16 +26,32 @@ public  class AllController {
 		this.as = as;
 	}
 	
-	@RequestMapping(value = "/welcome/", method = RequestMethod.GET)
-	public ResponseEntity<String> welcome(){
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String home(@RequestParam(value="error", required=false) boolean error, ModelMap model){
 
-		return new ResponseEntity<String>("400, Bad Request", HttpStatus.BAD_REQUEST);
+		System.out.println("Received request to show login page");
+
+		  if (error == true) {
+		   // Assign an error message
+		   model.put("error", "You have entered an invalid username or password!");
+		  } else {
+		   model.put("error", "");
+		  }
+		return "login";
+		//return new ResponseEntity<String>("400, Bad Request", HttpStatus.BAD_REQUEST);
 	}
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(){
 
-		return "login";
+		return "home";
+		//return new ResponseEntity<String>("400, Bad Request", HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(){
+
+		return "logout";
 		//return new ResponseEntity<String>("400, Bad Request", HttpStatus.BAD_REQUEST);
 	}
 	
