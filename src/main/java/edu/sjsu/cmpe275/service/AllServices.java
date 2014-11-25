@@ -34,6 +34,32 @@ public class AllServices {
 		
 	}
 	
+	public Person getPersonByEmail(String email){
+		
+		List<Person> ap = personDao.allPerson();
+		for(Person p : ap){
+			
+			if(p.getEmail() == email){
+				
+				return p;
+			}
+		}
+		return null;
+	}
+	
+	public Person getPersonByIdurl(String idurl){
+		
+		List<Person> ap = personDao.allPerson();
+		for(Person p : ap){
+			
+			if(p.getIdurl() == idurl){
+				
+				return p;
+			}
+		}
+		return null;
+	}
+	
 	//return null if id not exist, otherwise Person obj
 	public Person deletePersonById(long id){
 	
@@ -70,7 +96,7 @@ public class AllServices {
 	//return null if param invalid, otherwise Person obj
 	public Person createPerson(Person person){
 		
-		if(person.getEmail() == null || person.getFirstname() == null || person.getLastname() == null){return null;}
+		if(person.getEmail() == null){return null;}
 		else{
 			
 			if(person.getOrg() == null){return personDao.save(person);}

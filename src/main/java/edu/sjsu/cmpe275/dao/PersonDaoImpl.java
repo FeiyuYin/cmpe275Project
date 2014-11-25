@@ -70,9 +70,7 @@ public class PersonDaoImpl implements PersonDao{
         System.out.println(("Person Returned..." + person.getId()));
 		return person;
 	}
-
-
-
+	
 	@Override
 	public void addFriend(Person p1, Person p2) {
 		// TODO Auto-generated method stub

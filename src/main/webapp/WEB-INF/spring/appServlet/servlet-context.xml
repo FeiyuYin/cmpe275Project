@@ -31,7 +31,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="hibernate.show_sql">true</prop>  
                 <prop key="hibernate.current_session_context_class">thread</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop> 
+                <prop key="hibernate.hbm2ddl.auto">create</prop> 
                              
             </props>
         </property>
@@ -81,5 +81,20 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
    	<property name="personDao" ref="personDao" />
    	<property name="orgDao" ref="orgDao" />
     </bean>
-
+    
+    
+   <bean name = "customUserDetailsService" class = "edu.sjsu.cmpe275.service.CustomUserDetailsService">
+   <property name="allServices" ref="allServices" />
+   </bean>
+   <alias name="customUserDetailsService" alias="userAuthenticationProvider"/>
+   
+   <bean id="authenticationFailureHandler" name = "customFailureHandler" class = "edu.sjsu.cmpe275.service.CustomFailureHandler">
+   <property name="allServices" ref="allServices" />
+     <property name="defaultFailureUrl" value="/lab3/login"/>
+   </bean>
+   
+   <bean id="authenticationSuccessHandler" name = "customSuccessHandler" class = "edu.sjsu.cmpe275.service.CustomSuccessHandler">
+   
+   </bean>
+    
 </beans>

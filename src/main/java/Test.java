@@ -35,7 +35,7 @@ public class Test {
 //        Person person1 = new Person("Feiyu", "Yin", "123@abc", "NB", null, null);
 //        as.createPerson(person1);
         
-        Person person2 = new Person("Xiaotong", "Yin", "123@abc", "NB", add, org);
+        Person person2 = new Person("Xiaotong", "Yin", "123@abc", null, "NB", add, org);
         as.createPerson(person2);
         
 //        as.addFriend(person1.getId(), person2.getId());

@@ -27,7 +27,7 @@ public  class AllController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String home(@RequestParam(value="error", required=false) boolean error, ModelMap model){
+	public String loginGet(@RequestParam(value="error", required=false) boolean error, ModelMap model){
 
 		System.out.println("Received request to show login page");
 
@@ -39,6 +39,14 @@ public  class AllController {
 		  }
 		return "login";
 		//return new ResponseEntity<String>("400, Bad Request", HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String loginPost(){
+		
+		
+		System.out.println("/login Post");
+		return "home";	
 	}
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
@@ -80,7 +88,7 @@ public  class AllController {
 		}
 		
 		Address address = new Address( street,  city,  country,  zipcode);
-		Person person = new Person(firstname,  lastname,  email,  description,  address,  org);
+		Person person = new Person(firstname,  lastname,  email,  null,  description, address,  org);
 		Person tmp = as.createPerson(person);
 		if(tmp != null){
 
@@ -101,7 +109,7 @@ public  class AllController {
 		}
 		
 		Address address = new Address( street,  city,  country,  zipcode);
-		Person person = new Person(firstname,  lastname,  email,  description,  address,  org);
+		Person person = new Person(firstname,  lastname,  email, null, description,  address,  org);
 		person.setId(Long.parseLong(id));
 		int tmp = as.updatePerson(person);
 
