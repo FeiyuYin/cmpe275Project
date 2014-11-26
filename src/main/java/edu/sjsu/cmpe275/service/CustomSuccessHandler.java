@@ -18,7 +18,7 @@ public void onAuthenticationSuccess(HttpServletRequest request,HttpServletRespon
 	
 	//redirecting to landing page
 	System.out.println("OnAuthenticationSuccess");
-		getRedirectStrategy().sendRedirect(request, response, "/lab3/home");
+		getRedirectStrategy().sendRedirect(request, response, "/home");
 	
 	}
 

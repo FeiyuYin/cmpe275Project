@@ -1,5 +1,11 @@
 package edu.sjsu.cmpe275.controller;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,11 +48,24 @@ public  class AllController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String loginPost(){
+	public void loginPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		
-		
-		System.out.println("/login Post");
-		return "home";	
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		Person p = as.getPersonByEmail(email);
+		if(p == null || !p.getPassword().equals(password)){
+			
+			response.sendRedirect("/lab3/login?error=true");
+		}
+		else{
+			
+			System.out.println("Login successfully.");
+			HttpSession session = request.getSession();
+			session.setAttribute("userSession", session);
+			session.setAttribute("email", email);
+			response.sendRedirect("/lab3/home");
+		}
+			
 	}
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)

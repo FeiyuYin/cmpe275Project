@@ -28,12 +28,19 @@ public class CustomUserDetailsService implements UserDetailsService
 public UserDetails loadUserByUsername(String username)throws UsernameNotFoundException, DataAccessException {
 	
 	System.out.println("loadUserByUsername");
-	System.out.println(username);
+
 		final String userIdentifier = username.split("=")[1];
+		System.out.println(userIdentifier);
 		
 			 try{ 
 				 
-				 UserDetails user = as.getPersonByIdurl(username);
+				 UserDetails user = as.getPersonByIdurl(userIdentifier);
+				 if(user == null){
+					 
+					 System.out.println("user is null");
+					 throw new UsernameNotFoundException("Error in retrieving user");
+				 }
+				 else{System.out.println(user.getUsername());}
 				 return user;
 			
 			//provide implementation to search user with username in database and

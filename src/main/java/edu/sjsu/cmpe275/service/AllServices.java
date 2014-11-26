@@ -37,9 +37,10 @@ public class AllServices {
 	public Person getPersonByEmail(String email){
 		
 		List<Person> ap = personDao.allPerson();
+		if(ap == null){return null;}
 		for(Person p : ap){
 			
-			if(p.getEmail() == email){
+			if(p.getEmail().equals(email)){
 				
 				return p;
 			}
@@ -50,15 +51,17 @@ public class AllServices {
 	public Person getPersonByIdurl(String idurl){
 		
 		List<Person> ap = personDao.allPerson();
+		if(ap == null){return null;}
 		for(Person p : ap){
-			
-			if(p.getIdurl() == idurl){
+			System.out.println(p.getIdurl());
+			if(p.getIdurl().equals(idurl)){
 				
 				return p;
 			}
 		}
 		return null;
 	}
+
 	
 	//return null if id not exist, otherwise Person obj
 	public Person deletePersonById(long id){

@@ -62,7 +62,6 @@ public class Person implements Serializable, UserDetails{
     @JoinColumn(name = "ORGID")
 	private Organization org;
 	
-	
 	@ManyToMany(fetch = FetchType.EAGER,cascade={CascadeType.ALL})
     @JoinTable(name="FRIENDSHIP",
     	joinColumns={@JoinColumn(name="PERSONID")},
