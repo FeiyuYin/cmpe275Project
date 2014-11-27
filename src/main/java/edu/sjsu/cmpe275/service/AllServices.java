@@ -1,13 +1,17 @@
 package edu.sjsu.cmpe275.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import edu.sjsu.cmpe275.dao.CommentDaoImpl;
 import edu.sjsu.cmpe275.dao.OrgDaoImpl;
 import edu.sjsu.cmpe275.dao.PersonDaoImpl;
+import edu.sjsu.cmpe275.dao.PostDaoImpl;
 import edu.sjsu.cmpe275.model.Organization;
 import edu.sjsu.cmpe275.model.Person;
+import edu.sjsu.cmpe275.model.Post;
 
 public class AllServices {
 
@@ -15,6 +19,11 @@ public class AllServices {
 	PersonDaoImpl personDao; 
 	@Autowired
 	OrgDaoImpl orgDao;
+	@Autowired
+	PostDaoImpl postDao;
+	@Autowired
+	CommentDaoImpl commentDao;
+	
 	
 	public void setPersonDao(PersonDaoImpl personDao){
 		
@@ -24,6 +33,16 @@ public class AllServices {
 	public void setOrgDao(OrgDaoImpl orgDao){
 		
 		this.orgDao = orgDao;
+	}
+	
+	public void setPostDao(PostDaoImpl postDao){
+		
+		this.postDao = postDao;
+	}
+	
+	public void setCommentDao(CommentDaoImpl commentDao){
+		
+		this.commentDao = commentDao;
 	}
 	
 	
@@ -224,6 +243,27 @@ public class AllServices {
 			return 404;
 		}
 		
+	}
+	
+	public Post createPost(Post post){
+		
+		postDao.save(post);
+		return post;
+	}
+	
+	public List<Post> getPostByEmail(String email){
+		
+		List<Post> result = new ArrayList<Post>();
+		List<Post> posts = postDao.allPost();
+		if(posts == null){return null;}
+		for(Post post : posts){
+			
+			if(post.getPerson().getEmail().equals(email)){
+				
+				result.add(post);
+			}
+		}
+		return result;
 	}
 	
 	

@@ -5,7 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!-- saved from url=(0032)http://localhost:8000/lab3/home# -->
+<!-- saved from url=(0096)file:///home/yin/workspace/STSworkspace/mycmpe275lab3/src/main/webapp/WEB-INF/views/Twitter.html -->
 <html lang="en" data-scribe-reduced-action-queue="true"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     
@@ -577,8 +577,8 @@ s,
         <div class="DashboardProfileCard  module">
 
     <a class="DashboardProfileCard-bg u-bgUserColor u-block" href="https://twitter.com/Feiyu14" tabindex="-1" aria-hidden="true">
-    <font color="black">Hi ${user} &nbsp;</font></a><a href="/lab3/logout">Log out here.</a>
-    
+    <font color="black">Hi ${user} &nbsp;</font><a href = "/lab3/logout">Log out here.</a>
+    </a>
 
     <div class="DashboardProfileCard-content">
 
@@ -610,6 +610,16 @@ s,
   </div>
 
 
+
+
+      
+
+    
+
+
+
+  
+
 </div>
 
 
@@ -621,7 +631,7 @@ s,
       <div class="home-tweet-box tweet-box component tweet-user">
           <form class="t1-form tweet-form
         condensed
-        " method="post" action="http://localhost:8000/lab3/post">
+        " method="post" action="/lab3/post">
        Make a Post <input id="content" type="text" autocomplete="off" value="" name="content" maxlength="400" aria-required="true" class="">
 </form>
 
@@ -634,17 +644,37 @@ s,
 
     <div class="stream home-stream">
         <ol class="stream-items js-navigable-stream" id="stream-items-id">
+        
             <li class="js-stream-item stream-item stream-item expanding-stream-item cards-forward
 " data-item-id="535490227326840832" id="stream-item-tweet-535490227326840832" data-item-type="tweet">
     <ol role="presentation" class="expanded-conversation expansion-container js-expansion-container js-navigable-stream">
-    <c:forEach var="e" items="${posts}">
     <li role="presentation" class="original-tweet-container">
-   
+      
+
+
+  
+
+
   <div class="tweet original-tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable js-original-tweet   
  promoted-tweet
 
 
  has-cards
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  mf-website
 
@@ -674,35 +704,101 @@ s,
 &lt;/div&gt;
 " data-impression-cookie="[&quot;535490227326840832&quot;,&quot;77677d64c56bfd28&quot;,&quot;promoted&quot;,&quot;&quot;,[],&quot;358013667&quot;]" data-you-follow="false" data-you-block="false">
 
-    
+    <div class="context">
+      
+      
+      
+      
+      
+    </div>
     <div class="content">
 
       
       <div class="stream-item-header">
         
           <a data-impression-cookie="[&quot;358013667&quot;,&quot;77677d64c56bfd28&quot;,&quot;promoted&quot;,&quot;&quot;,[],&quot;358013667&quot;]" class="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="https://twitter.com/relateiq" data-user-id="358013667">
-    <strong class="fullname js-action-profile-name show-popup-with-id" data-aria-label-part="">${e.getPerson().getEmail()}</strong>
+    <strong class="fullname js-action-profile-name show-popup-with-id" data-aria-label-part="">RelateIQ</strong>
     <span></span><span class="username js-action-profile-name" data-aria-label-part=""><s></s><b></b></span>
     
 
   </a>
 
         <small class="time">
-  <a href="https://twitter.com/relateiq/status/535490227326840832" class="tweet-timestamp js-permalink js-nav js-tooltip" title="9:49 AM - 20 Nov 2014" data-send-impression-cookie=""><span class="_timestamp js-short-timestamp " data-aria-label-part="last" data-time="1416505793" data-time-ms="1416505793000" data-long-form="true">${e.getDate()}</span></a>
+  <a href="https://twitter.com/relateiq/status/535490227326840832" class="tweet-timestamp js-permalink js-nav js-tooltip" title="9:49 AM - 20 Nov 2014" data-send-impression-cookie=""><span class="_timestamp js-short-timestamp " data-aria-label-part="last" data-time="1416505793" data-time-ms="1416505793000" data-long-form="true">Nov 20</span></a>
 </small>
 
         
       </div>
 
       
-        <p class="js-tweet-text tweet-text" lang="en" data-aria-label-part="0">${e.getContent()} </p>
+        <p class="js-tweet-text tweet-text" lang="en" data-aria-label-part="0">Do you enjoy entering data into your CRM? Nobody does. Try RelateIQ and find out how our users save 6+ hours a week. <a href="https://t.co/YqDAncXhIG" rel="nofollow" dir="ltr" data-expanded-url="https://cards.twitter.com/cards/5x5h43/6h7k" class="twitter-timeline-link u-hidden" target="_blank" title="https://cards.twitter.com/cards/5x5h43/6h7k"><span class="tco-ellipsis"></span><span class="invisible">https://</span><span class="js-display-url">cards.twitter.com/cards/5x5h43/6</span><span class="invisible">h7k</span><span class="tco-ellipsis"><span class="invisible">&nbsp;</span>â¦</span></a></p>
 
+
+
+
+
+      
+      
           <div class="card2 js-media-container" data-card2-name="promo_website">
 
-  
+  <div class="expanded-content js-tweet-details-dropdown">
+      
+      
+      
+
+      <div class="js-tweet-details-fixer tweet-details-fixer">
+
+
+
+    <div class="entities-media-container js-media-container" style="min-height:0px">
+    </div>
+
+  <div class="js-machine-translated-tweet-container"></div>
+    <div class="js-tweet-stats-container tweet-stats-container ">
+    </div>
+
+  <div class="client-and-actions">
+  <span class="metadata">
+    <span>9:49 AM - 20 Nov 2014</span>
+
+       Â· <a class="permalink-link js-permalink js-nav" href="https://twitter.com/relateiq/status/535490227326840832" data-impression-cookie="[&quot;535490227326840832&quot;,&quot;77677d64c56bfd28&quot;,&quot;promoted&quot;,&quot;&quot;,[],&quot;358013667&quot;]" data-send-impression-cookie="true" tabindex="-1">Details</a>
+    
+
+
+  </span>
+</div>
+
+
+</div>
+
+  </div>
 <div class="stream-item-footer">
       
         
+<a class="details with-icn js-details" href="https://twitter.com/relateiq/status/535490227326840832">
+    <span class="Icon Icon--summary"></span>
+
+</a>
+
+
+    
+          
+    <span class="ProfileTweet-action--reply u-hiddenVisually">
+      
+      <span class="ProfileTweet-actionCount" aria-hidden="true" data-tweet-stat-count="0">
+        <span class="ProfileTweet-actionCountForAria">0 replies</span>
+      </span>
+    </span>
+    <span class="ProfileTweet-action--retweet u-hiddenVisually">
+      <span class="ProfileTweet-actionCount" data-tweet-stat-count="2">
+        <span class="ProfileTweet-actionCountForAria" data-aria-label-part="">2 retweets</span>
+      </span>
+    </span>
+    <span class="ProfileTweet-action--favorite u-hiddenVisually">
+      <span class="ProfileTweet-actionCount" data-tweet-stat-count="6">
+        <span class="ProfileTweet-actionCountForAria" data-aria-label-part="">6 favorites</span>
+      </span>
+    </span>
   <div role="group" aria-label="Tweet actions" class="ProfileTweet-actionList u-cf js-actions">
   
   <div class="ProfileTweet-action ProfileTweet-action--reply">
@@ -710,13 +806,27 @@ s,
       <span class="Icon Icon--reply"></span>
       <span class="u-hiddenVisually">Reply</span>
         <span class="ProfileTweet-actionCount u-textUserColorHover ProfileTweet-actionCount--isZero">
-          <span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${e.getCommetns()}</span>
+          <span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"></span>
         </span>
     </button>
   </div>
 
   
-  
+  <div class="ProfileTweet-action ProfileTweet-action--retweet js-toggleState js-toggleRt">
+    <button class="ProfileTweet-actionButton  js-actionButton js-actionRetweet js-tooltip" data-modal="ProfileTweet-retweet" type="button" data-original-title="Retweet">
+      <span class="Icon Icon--retweet"></span>
+      <span class="u-hiddenVisually">Retweet</span>
+        <span class="ProfileTweet-actionCount">
+          <span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">2</span>
+        </span>
+    </button><button class="ProfileTweet-actionButtonUndo js-actionButton js-actionRetweet js-tooltip" data-modal="ProfileTweet-retweet" title="Undo retweet" type="button">
+      <span class="Icon Icon--retweet"></span>
+      <span class="u-hiddenVisually">Retweeted</span>
+        <span class="ProfileTweet-actionCount">
+          <span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">2</span>
+        </span>
+    </button>
+  </div>
 
   
   <div class="ProfileTweet-action ProfileTweet-action--favorite js-toggleState">
@@ -724,13 +834,47 @@ s,
       <span class="Icon Icon--favorite"></span>
       <span class="u-hiddenVisually">Favorite</span>
         <span class="ProfileTweet-actionCount">
-            <span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${e.getLikes()}</span>
+            <span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">6</span>
+        </span>
+    </button><button class="ProfileTweet-actionButtonUndo u-linkClean js-actionButton js-actionFavorite js-tooltip" title="Undo favorite" type="button">
+      <span class="Icon Icon--favorite"></span>
+      <span class="u-hiddenVisually">Favorited</span>
+        <span class="ProfileTweet-actionCount">
+            <span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">6</span>
         </span>
     </button>
   </div>
 
   
+    <div class="ProfileTweet-action ProfileTweet-action--more js-more-ProfileTweet-actions">
+      <div class="dropdown">
+  <button class="ProfileTweet-actionButton u-textUserColorHover dropdown-toggle js-tooltip js-dropdown-toggle" type="button" aria-haspopup="true" data-original-title="More">
+      <span class="Icon Icon--dots"></span>
+      <span class="u-hiddenVisually">More</span>
+  </button>
+  <div class="dropdown-menu">
+  <div class="dropdown-caret">
+    <div class="caret-outer"></div>
+    <div class="caret-inner"></div>
+  </div>
+  <ul>
     
+      <li class="share-via-dm js-actionShareViaDM" data-nav="share_tweet_dm">
+        <button type="button" class="dropdown-link">Share via Direct Message</button>
+      </li>
+    
+      <li class="embed-link js-actionEmbedTweet" data-nav="embed_tweet">
+        <button type="button" class="dropdown-link">Embed Tweet</button>
+      </li>
+        <li class="block-or-report-link js-actionBlockOrReport" data-nav="block_or_report">
+          <button type="button" class="dropdown-link">Block or report</button>
+        </li>
+  </ul>
+</div>
+
+</div>
+
+    </div>
 
   
 </div>
@@ -747,8 +891,7 @@ s,
 
 
 
-    </div></li>
-    </c:forEach>
+    </li>
 </ol>
 </li>
 
@@ -771,19 +914,88 @@ s,
 
     <div class="flex-module-header">
       <h3>Who to follow</h3>
-      
-      
-      
+      <small>Â· </small>
+      <button type="button" class="btn-link js-refresh-suggestions"><small>Refresh</small></button>
+      <small class="view-all">Â· <a class="js-view-all-link" href="https://twitter.com/who_to_follow/suggestions" data-element-term="view_all_link">View all</a></small>
     </div>
 
-    <div class="js-recommended-followers dashboard-user-recommendations flex-module-inner" data-section-id="wtf" style="opacity: 1;">  
+    <div class="js-recommended-followers dashboard-user-recommendations flex-module-inner" data-section-id="wtf" style="opacity: 1;">  <div class="js-account-summary account-summary js-actionable-user promoted-account js-profile-popup-actionable " data-user-id="1394399438" data-feedback-token="38" data-impression-id="776780a2c9a78a14" data-impression-cookie="[&quot;1394399438&quot;,&quot;776780a2c9a78a14&quot;,&quot;promoted&quot;,&quot;&quot;,[],&quot;&quot;]">
+  <div class="dismiss js-action-dismiss"><span class="Icon Icon--close"></span></div>
+  <div class="content">
+    <a class="account-group js-recommend-link js-user-profile-link user-thumb" href="https://twitter.com/JohnLegere" data-user-id="1394399438">
+      
+      <span class="account-group-inner js-action-profile-name" data-user-id="1394399438">
+        <b class="fullname">John Legere</b><span class="Icon Icon--verified Icon--small"><span class="u-hiddenVisually">Verified account</span></span>
+
+        <span class="username"><s>@</s><span class="js-username">JohnLegere</span></span>
+      </span>
+    </a>
 
 
-  
+    <small class="metadata social-context">
+    </small>
+    
+<div class="user-actions not-following not-muting" data-user-id="1394399438">
+  <button type="button" class="small-follow-btn follow-btn btn small follow-button js-recommended-item">
+    <div class="js-action-follow follow-text action-text">
+      <span class="Icon Icon--follow"></span>
+      Follow
+    </div>
+    <div class="js-action-unfollow following-text action-text">Following</div>
+    <div class="js-action-unfollow unfollow-text action-text">Unfollow</div>
+    <div class="block-text action-text">Blocked</div>
+    <div class="js-action-unblock unblock-text action-text">Unblock</div>
+    <div class="js-action-unfollow pending-text action-text">Pending</div>
+    <div class="js-action-unfollow cancel-req-text action-text">Cancel</div>
+  </button>
+    <small class="metadata with-icn js-disclosure js-tooltip" title="">
+      <a href="https://twitter.com/JohnLegere" class="js-promoted-badge js-user-profile-link">
+        <span class="Icon Icon--small Icon--promoted"></span>Promoted
+      </a>
+    </small>
+</div>
+
+  </div>
+</div>
+
+
+  <div class="js-account-summary account-summary js-actionable-user " data-user-id="20416406" data-feedback-token="139" data-impression-id="">
+  <div class="dismiss js-action-dismiss"><span class="Icon Icon--close"></span></div>
+  <div class="content">
+    <a class="account-group js-recommend-link js-user-profile-link user-thumb" href="https://twitter.com/SteveNash" data-user-id="20416406">
+      
+      <span class="account-group-inner js-action-profile-name" data-user-id="20416406">
+        <b class="fullname">Steve Nash</b><span class="Icon Icon--verified Icon--small"><span class="u-hiddenVisually">Verified account</span></span>
+
+        <span class="username"><s>@</s><span class="js-username">SteveNash</span></span>
+      </span>
+    </a>
+
+
+    <small class="metadata social-context">
+    </small>
+    
+<div class="user-actions not-following not-muting" data-user-id="20416406">
+  <button type="button" class="small-follow-btn follow-btn btn small follow-button js-recommended-item">
+    <div class="js-action-follow follow-text action-text">
+      <span class="Icon Icon--follow"></span>
+      Follow
+    </div>
+    <div class="js-action-unfollow following-text action-text">Following</div>
+    <div class="js-action-unfollow unfollow-text action-text">Unfollow</div>
+    <div class="block-text action-text">Blocked</div>
+    <div class="js-action-unblock unblock-text action-text">Unblock</div>
+    <div class="js-action-unfollow pending-text action-text">Pending</div>
+    <div class="js-action-unfollow cancel-req-text action-text">Cancel</div>
+  </button>
+</div>
+
+  </div>
+</div>
 
 
   <div class="js-account-summary account-summary js-actionable-user " data-user-id="245460742" data-feedback-token="117" data-impression-id="">
-  
+  <div class="dismiss js-action-dismiss"><span class="Icon Icon--close"></span></div>
   <div class="content">
     <a class="account-group js-recommend-link js-user-profile-link user-thumb" href="https://twitter.com/Plaid_Brin" data-user-id="245460742">
       
@@ -832,10 +1044,114 @@ s,
 
 </div></div>
 
+
+
+
+
+
+
+
+
           </div>
         </div>
       
     </div>
+    
+
+    
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+
+  
+  
+
+     
+
+  
+
+
+  
+
+  
+  
+
+  
+
+
+  
+
+
+
+
+
+  
+
+
+  
+
+
+  
+
+  
+
+
+
+
+
+
+
+  
+
+
+   
+
+
+
+
+
+
+
+
+    
+
+    
+    
+  
+
+  
+
+      
+
+
+    
+  
+
+  
     
 
 </body></html>

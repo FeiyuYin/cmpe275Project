@@ -1,7 +1,13 @@
 package edu.sjsu.cmpe275.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import edu.sjsu.cmpe275.model.Address;
 import edu.sjsu.cmpe275.model.Organization;
 import edu.sjsu.cmpe275.model.Person;
+import edu.sjsu.cmpe275.model.Post;
 import edu.sjsu.cmpe275.service.AllServices;
 @Controller
 @RequestMapping("/")
@@ -30,6 +39,12 @@ public  class AllController {
 	public void setAllServices(AllServices as){
 		
 		this.as = as;
+	}
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public String test(){
+		
+		return "signup_new";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -68,18 +83,106 @@ public  class AllController {
 			
 	}
 	
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public String singupGet(@RequestParam(value="error", required=false) boolean error, ModelMap model){
+		
+		if (error == true) {
+			
+			model.put("error", "Email already registered!");
+		}
+		else{
+			
+			model.put("error", "");
+		}
+		return "signup";
+	}
+	
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public void singupPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		
+		Person tmp = as.getPersonByEmail(request.getParameter("email"));
+		if(tmp != null){
+			
+			response.sendRedirect("/lab3/signup?error=true");
+		}
+		else{
+			
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
+			String firstname = request.getParameter("firstname");
+			String lastname = request.getParameter("lastname");
+			String street = request.getParameter("street");
+			String city = request.getParameter("city");
+			String country = request.getParameter("country");
+			String zipcode = request.getParameter("zipcode");
+			
+			Address address = new Address( street,  city,  country,  zipcode);
+			
+			Person person = new Person( firstname,  lastname,  email, password, null, null, address,  null);
+
+			as.createPerson(person);
+			response.sendRedirect("/lab3/home");
+		}
+	}
+	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String home(){
+	public String home(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws ServletException, IOException{
+		
+		System.out.println("/home is required.");
+		HttpSession session = request.getSession();
+		
+		String email = (String) session.getAttribute("email");
+		
+		if(email == null){return "login";}
+		
+		System.out.println(email);
+		
+		Person person = as.getPersonByEmail(email);
+		ArrayList<Post> posts = (ArrayList<Post>) as.getPostByEmail(email);
+		
+		for(Person p : person.getPersons()){
+			
+			ArrayList<Post> tmp = (ArrayList<Post>) as.getPostByEmail(p.getEmail());
+			posts.addAll(tmp);
+		}
+		
+		model.put("user", email);
+		model.put("posts", posts);
+		//request.setAttribute("user", email);
+		//request.setAttribute("posts", posts);
 
 		return "home";
+		//request.getRequestDispatcher("/lab3/home.jsp").forward(request, response);
+		
 		//return new ResponseEntity<String>("400, Bad Request", HttpStatus.BAD_REQUEST);
 	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(){
+	public String logout(HttpServletRequest request, HttpServletResponse response) throws IOException{
 
-		return "logout";
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return "login";
 		//return new ResponseEntity<String>("400, Bad Request", HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(value = "/post", method = RequestMethod.POST)
+	public  void createPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		
+		
+		HttpSession session = request.getSession();
+		String email = (String) session.getAttribute("email");
+		Person person = as.getPersonByEmail(email);
+		String content = request.getParameter("content");
+		
+		DateFormat dateFormat = new SimpleDateFormat("/MM/dd/yyyy");
+		Calendar calobj = Calendar.getInstance();
+		String date = dateFormat.format(calobj.getTime());
+		
+		Post post = new Post( person,  date,  0,  0,  0,  content);
+		as.createPost(post);
+		
+		response.sendRedirect("/lab3/home");
 	}
 	
 	@RequestMapping(value = "/person/{id}", method = RequestMethod.GET)
@@ -97,7 +200,7 @@ public  class AllController {
 	}
 	
 	@RequestMapping(value = "/person", method = RequestMethod.POST)
-	public ResponseEntity<String> createPerson(@RequestParam(value = "email") String email, @RequestParam(value = "firstname") String firstname, @RequestParam(value = "lastname") String lastname, @RequestParam(value = "street") String street, @RequestParam(value = "zipcode") String zipcode, @RequestParam(value = "country") String country, @RequestParam(value = "city") String city, @RequestParam(value = "description") String description, @RequestParam(value = "organization") String organization){
+	public ResponseEntity<String> createPerson(@RequestParam(value = "email") String email, @RequestParam(value = "firstname") String firstname, @RequestParam(value = "lastname") String lastname, @RequestParam(value = "password") String password,@RequestParam(value = "street") String street, @RequestParam(value = "zipcode") String zipcode, @RequestParam(value = "country") String country, @RequestParam(value = "city") String city, @RequestParam(value = "description") String description, @RequestParam(value = "organization") String organization){
 		
 		Organization org = as.getOrgById(Long.parseLong(organization));
 		if(org == null){
@@ -107,7 +210,7 @@ public  class AllController {
 		}
 		
 		Address address = new Address( street,  city,  country,  zipcode);
-		Person person = new Person(firstname,  lastname,  email,  null,  description, address,  org);
+		Person person = new Person(firstname,  lastname,  email, password, null,  description, address,  org);
 		Person tmp = as.createPerson(person);
 		if(tmp != null){
 
@@ -118,7 +221,7 @@ public  class AllController {
 	}
 	
 	@RequestMapping(value = "/person/{id}", method = RequestMethod.POST)
-	public ResponseEntity<String> updatePerson(@PathVariable("id") String id, @RequestParam(value = "email") String email, @RequestParam(value = "firstname") String firstname, @RequestParam(value = "lastname") String lastname, @RequestParam(value = "street") String street, @RequestParam(value = "zipcode") String zipcode, @RequestParam(value = "country") String country, @RequestParam(value = "city") String city, @RequestParam(value = "description") String description, @RequestParam(value = "organization") String organization){
+	public ResponseEntity<String> updatePerson(@PathVariable("id") String id, @RequestParam(value = "email") String email, @RequestParam(value = "firstname") String firstname, @RequestParam(value = "lastname") String lastname, @RequestParam(value = "password") String password, @RequestParam(value = "street") String street, @RequestParam(value = "zipcode") String zipcode, @RequestParam(value = "country") String country, @RequestParam(value = "city") String city, @RequestParam(value = "description") String description, @RequestParam(value = "organization") String organization){
 		
 		Organization org = as.getOrgById(Long.parseLong(organization));
 		if(org == null){
@@ -128,7 +231,7 @@ public  class AllController {
 		}
 		
 		Address address = new Address( street,  city,  country,  zipcode);
-		Person person = new Person(firstname,  lastname,  email, null, description,  address,  org);
+		Person person = new Person(firstname,  lastname,  email, password, null, description,  address,  org);
 		person.setId(Long.parseLong(id));
 		int tmp = as.updatePerson(person);
 

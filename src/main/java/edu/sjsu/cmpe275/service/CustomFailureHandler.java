@@ -58,7 +58,7 @@ public class CustomFailureHandler extends SimpleUrlAuthenticationFailureHandler 
 
 	  String username = (String) token.getPrincipal();
 	  
-	  Person person = new Person(null, null, email, idurl, null, null, null);
+	  Person person = new Person(null, null, email, null, idurl, null, null, null);
 	  
 	  as.createPerson(person);
 

@@ -40,7 +40,11 @@ public UserDetails loadUserByUsername(String username)throws UsernameNotFoundExc
 					 System.out.println("user is null");
 					 throw new UsernameNotFoundException("Error in retrieving user");
 				 }
-				 else{System.out.println(user.getUsername());}
+				 else{
+					 
+					 
+					 System.out.println(user.getUsername()); 
+				 }
 				 return user;
 			
 			//provide implementation to search user with username in database and

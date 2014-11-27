@@ -73,11 +73,12 @@ public class Person implements Serializable, UserDetails{
 	
 	public Person(){}
 	
-	public Person(String firstname, String lastname, String email, String idurl, String description, Address address, Organization org){
+	public Person(String firstname, String lastname, String email, String password, String idurl, String description, Address address, Organization org){
 		 
 		this.firstname = firstname; 
 		this.lastname = lastname; 
 		this.email = email;
+		this.password = password;
 		this.idurl = idurl;
 		this.description = description;
 		this.address = address;
