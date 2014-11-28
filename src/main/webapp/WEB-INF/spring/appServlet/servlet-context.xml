@@ -41,6 +41,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
                 <value>edu.sjsu.cmpe275.model.Organization</value>
                 <value>edu.sjsu.cmpe275.model.Post</value>
                 <value>edu.sjsu.cmpe275.model.Comment</value>
+                <value>edu.sjsu.cmpe275.model.Request</value>
             </list>
         </property>
     </bean>
@@ -71,6 +72,9 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
    <property name="sessionFactory" ref="sessionFactory" />
    </bean>
    
+   <bean name = "requestDao" class = "edu.sjsu.cmpe275.dao.RequestDaoImpl">
+   <property name="sessionFactory" ref="sessionFactory" />
+   </bean>
    
 	<bean id="transactionManager"
         class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

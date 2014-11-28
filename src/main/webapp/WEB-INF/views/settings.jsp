@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://abs.twimg.com/a/1417027384/css/t1/twitter_logged_out.bundle.css">
 
 	
-      <title>Sign up</title>
+      <title>Settings</title>
       
   </head>
   <body class="three-col logged-out phx-signup" data-fouc-class-names="swift-loading" dir="ltr">
@@ -28,10 +28,10 @@
   <div class="signup-wrapper">
 
           <h1>
-            Join Us Today.
+            Change Your Profile.
           </h1>
 
-    <form id="phx-signup-form" method="POST" action="/lab3/signup" class="t1-form ">
+    <form id="phx-signup-form" method="POST" action="/lab3/update" class="t1-form ">
 
   <div class="textbox">
 
@@ -39,7 +39,7 @@
   <label for="first-name" class="t1-label field-name">First name</label>
   <div class="field" data-fieldname="name">
     
-    <input id="firstname" type="text" autocomplete="off"  name="firstname" maxlength="20" aria-required="true">
+    <input id="firstname" type="text" autocomplete="off"  name="firstname" maxlength="20" aria-required="true" placeholder = "${firstname }">
   </div>
 </div>
 
@@ -47,15 +47,7 @@
   <label for="last-name" class="t1-label field-name">Last name</label>
   <div class="field" data-fieldname="name">
     
-    <input id="lastname" type="text" autocomplete="off" name="lastname" maxlength="20" aria-required="true" >
-  </div>
-</div>
-
-      <div class="prompt email">
-  <label for="email" class="t1-label field-name">Email address <font color="red">${noemail}</font><font color="red">${emailexist}</font></label>
-  <div class="field" data-fieldname="email">
-
-    <input id="email" name = "email" class="email-input" type="text" autocomplete="off"  aria-required="true">
+    <input id="lastname" type="text" autocomplete="off" name="lastname" maxlength="20" aria-required="true" placeholder = "${lastname }">
   </div>
 </div>
 
@@ -66,7 +58,7 @@
     </label>
   <div class="field" data-fieldname="street">
     
-    <input id="street" type="text" autocomplete="off" name="street" aria-required="true">
+    <input id="street" type="text" autocomplete="off" name="street" aria-required="true" placeholder = "${street }">
   </div>
     
 </div>
@@ -75,7 +67,7 @@
 City
   <div class="field" data-fieldname="city">
     
-    <input id="city" type="text" name="city" autocomplete="off" aria-required="true">
+    <input id="city" type="text" name="city" autocomplete="off" aria-required="true" placeholder = "${city }">
   </div>
     
 </div>
@@ -84,7 +76,7 @@ City
 Country
   <div class="field" data-fieldname="country">
     
-    <input id="country" type="text" autocomplete="off" name="country" aria-required="true">
+    <input id="country" type="text" autocomplete="off" name="country" aria-required="true" placeholder = "${country }">
   </div>
     
 </div>
@@ -92,16 +84,11 @@ Country
 Zipcode
   <div class="field" data-fieldname="zipcode">
     
-    <input id="zipcode" type="text" autocomplete="off" name="zipcode" aria-required="true">
+    <input id="zipcode" type="text" autocomplete="off" name="zipcode" aria-required="true" placeholder = "${zipcode }">
   </div>
     
 </div>
 <div>
-Create a password
-  <div class="field" data-fieldname="password">
-    
-    <input id="password" name = "password" type="password" autocomplete="off" name="user[user_password]" aria-required="true">
-  </div>
     
 </div>
   </div>
@@ -109,7 +96,7 @@ Create a password
   <div class="doit">
 
     <div class="sign-up-box">
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>&nbsp;&nbsp; <a href = "/lab3/login" >Log in</a>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Save Changes</button>&nbsp;&nbsp;&nbsp;<a href = "/lab3/home">Back</a>
        
     </div>
 

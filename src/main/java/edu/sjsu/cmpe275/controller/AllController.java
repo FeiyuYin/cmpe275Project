@@ -28,6 +28,7 @@ import edu.sjsu.cmpe275.model.Address;
 import edu.sjsu.cmpe275.model.Organization;
 import edu.sjsu.cmpe275.model.Person;
 import edu.sjsu.cmpe275.model.Post;
+import edu.sjsu.cmpe275.model.Request;
 import edu.sjsu.cmpe275.service.AllServices;
 @Controller
 @RequestMapping("/")
@@ -71,6 +72,7 @@ public  class AllController {
 		if(p == null || !p.getPassword().equals(password)){
 			
 			response.sendRedirect("/lab3/login?error=true");
+			return;
 		}
 		else{
 			
@@ -79,20 +81,34 @@ public  class AllController {
 			session.setAttribute("userSession", session);
 			session.setAttribute("email", email);
 			response.sendRedirect("/lab3/home");
+			return;
 		}
 			
 	}
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	public String singupGet(@RequestParam(value="error", required=false) boolean error, ModelMap model){
+	public String singupGet(@RequestParam(value="error", required=false) String error, ModelMap model){
 		
-		if (error == true) {
+		if(error == null){
 			
-			model.put("error", "Email already registered!");
+			model.put("noemail", "");
+			model.put("emailexist", "");
+		}
+		
+		else if (error.equals("noemail")) {
+			
+			model.put("noemail", "Email can not be empty.");
+			model.put("emailexist", "");
+		}
+		else if(error.equals("emailexist")){
+			
+			model.put("noemail", "");
+			model.put("emailexist", "Email already registered.");
 		}
 		else{
 			
-			model.put("error", "");
+			model.put("noemail", "");
+			model.put("emailexist", "");
 		}
 		return "signup";
 	}
@@ -100,14 +116,21 @@ public  class AllController {
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public void singupPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		
+		if(request.getParameter("email") == null || request.getParameter("email").equals("")){
+			
+			response.sendRedirect("/lab3/signup?error=noemail");
+			return;
+		}
 		Person tmp = as.getPersonByEmail(request.getParameter("email"));
 		if(tmp != null){
 			
-			response.sendRedirect("/lab3/signup?error=true");
+			response.sendRedirect("/lab3/signup?error=emailexist");
+			return;
 		}
 		else{
 			
 			String email = request.getParameter("email");
+			System.out.println(email);
 			String password = request.getParameter("password");
 			String firstname = request.getParameter("firstname");
 			String lastname = request.getParameter("lastname");
@@ -119,14 +142,26 @@ public  class AllController {
 			Address address = new Address( street,  city,  country,  zipcode);
 			
 			Person person = new Person( firstname,  lastname,  email, password, null, null, address,  null);
-
+			
 			as.createPerson(person);
-			response.sendRedirect("/lab3/home");
+			response.sendRedirect("/lab3/login");
+			return;
 		}
 	}
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String home(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws ServletException, IOException{
+	public String home(@RequestParam(value="error", required=false) String error, HttpServletRequest request, HttpServletResponse response, ModelMap model) throws ServletException, IOException{
+		
+		String em = "";
+		if(error != null && !error.equals("") && error.equals("nosuchperson")){
+			
+			em = "No such person.";
+		}
+		else if(error != null && !error.equals("") && error.equals("alreadyfriends")){
+			
+			em = "You are already friends.";
+		}
+
 		
 		System.out.println("/home is required.");
 		HttpSession session = request.getSession();
@@ -137,9 +172,14 @@ public  class AllController {
 		
 		System.out.println(email);
 		
-		Person person = as.getPersonByEmail(email);
-		ArrayList<Post> posts = (ArrayList<Post>) as.getPostByEmail(email);
+		ArrayList<Request> requests = (ArrayList<Request>) as.getRequestByTarget(email);
 		
+		Person person = as.getPersonByEmail(email);
+		
+		int friendsNum = person.getPersons().size();
+		
+		ArrayList<Post> posts = (ArrayList<Post>) as.getPostByEmail(email);
+		int postsNum = posts.size();
 		for(Person p : person.getPersons()){
 			
 			ArrayList<Post> tmp = (ArrayList<Post>) as.getPostByEmail(p.getEmail());
@@ -148,6 +188,11 @@ public  class AllController {
 		
 		model.put("user", email);
 		model.put("posts", posts);
+		model.put("requests", requests);
+		model.put("addpersonerror", em);
+		model.put("postsnum", postsNum);
+		model.put("friendsnum", friendsNum);
+		model.put("friends", person.getPersons());
 		//request.setAttribute("user", email);
 		//request.setAttribute("posts", posts);
 
@@ -167,8 +212,7 @@ public  class AllController {
 	}
 	
 	@RequestMapping(value = "/post", method = RequestMethod.POST)
-	public  void createPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		
+	public void createPost(HttpServletRequest request, HttpServletResponse response) throws IOException{		
 		
 		HttpSession session = request.getSession();
 		String email = (String) session.getAttribute("email");
@@ -183,7 +227,171 @@ public  class AllController {
 		as.createPost(post);
 		
 		response.sendRedirect("/lab3/home");
+		return;
 	}
+	
+	@RequestMapping(value = "/accept", method = RequestMethod.GET)
+	public void accept(@RequestParam(value="requesterEmail", required=false) String requesterEmail, HttpServletRequest request, HttpServletResponse response) throws IOException{
+		
+		HttpSession session = request.getSession();
+		String email = (String) session.getAttribute("email");
+		
+		Person person = as.getPersonByEmail(email);
+		Person requester = as.getPersonByEmail(requesterEmail);
+		as.addFriend(person.getId(), requester.getId());
+		
+		ArrayList<Request> reqs = (ArrayList<Request>) as.getRequestByTarget(email);
+		for(Request req : reqs){
+			
+			if(req.getRequester().getId() == requester.getId()){
+				System.out.println("here");
+				req.setStatus("approved");
+				as.createRequest(req);
+			}
+		}
+		
+		response.sendRedirect("/lab3/home");
+		return;
+	}
+	
+	@RequestMapping(value = "/reject", method = RequestMethod.GET)
+	public void reject(@RequestParam(value="requesterEmail", required=false) String requesterEmail, HttpServletRequest request, HttpServletResponse response) throws IOException{
+		
+		HttpSession session = request.getSession();
+		String email = (String) session.getAttribute("email");
+		Person person = as.getPersonByEmail(email);
+		Person requester = as.getPersonByEmail(requesterEmail);
+		
+		ArrayList<Request> reqs = (ArrayList<Request>) as.getRequestByTarget(email);
+		for(Request req : reqs){
+			
+			if(req.getRequester().getId() == requester.getId()){
+				
+				req.setStatus("rejected");
+				as.createRequest(req);
+			}
+		}
+		
+		response.sendRedirect("/lab3/home");
+		return;
+	}
+	
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public void add(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		
+		HttpSession session = request.getSession();
+		String email = (String) session.getAttribute("email");
+		if(email == null){
+			
+			response.sendRedirect("/lab3/login");
+			return;
+		}
+		Person person = as.getPersonByEmail(email);
+		Person tmp = as.getPersonByEmail(request.getParameter("newfriend"));
+		
+		if(tmp == null){
+			
+			response.sendRedirect("/lab3/home/?error=nosuchperson");
+			return;
+		}
+		else{
+			
+			for(Person p : person.getPersons()){
+				
+				if(p.getEmail().equals(request.getParameter("newfriend"))){
+					
+					response.sendRedirect("/lab3/home/?error=alreadyfriends");
+					return;
+				}
+			}
+			
+			DateFormat dateFormat = new SimpleDateFormat("/MM/dd/yyyy");
+			Calendar calobj = Calendar.getInstance();
+			String date = dateFormat.format(calobj.getTime());
+			Request req = new Request( person,  tmp,  date,  "pending");
+			as.createRequest(req);
+			response.sendRedirect("/lab3/home");
+			return;
+		}
+		
+	}
+	
+	@RequestMapping(value = "/remove", method = RequestMethod.GET)
+	public void remove(@RequestParam(value="id", required=false) long removeId,HttpServletRequest request, HttpServletResponse response) throws IOException{
+		
+		HttpSession session = request.getSession();
+		String email = (String) session.getAttribute("email");
+		if(email == null){
+			
+			response.sendRedirect("/lab3/login");
+			return;
+		}
+		Person person = as.getPersonByEmail(email);
+		as.rmFriend(person.getId(), removeId);
+		response.sendRedirect("/lab3/home");
+		return;
+	}
+	
+	@RequestMapping(value = "/settings", method = RequestMethod.GET)
+	public String settings(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws ServletException, IOException{
+		
+		HttpSession session = request.getSession();
+		String email = (String) session.getAttribute("email");
+		if(email == null){
+			
+			return "login";
+		}
+		
+		Person person = as.getPersonByEmail(email);
+		if(person == null){
+			
+			return "login";
+		}
+		
+		model.put("firstname", person.getFirstname());
+		model.put("lastname", person.getLastname());
+		model.put("street", person.getAddress()==null?null:person.getAddress().getStreet());
+		model.put("city", person.getAddress()==null?null:person.getAddress().getCity());
+		model.put("country", person.getAddress()==null?null:person.getAddress().getCountry());
+		model.put("zipcode", person.getAddress()==null?null:person.getAddress().getZip());
+		
+		return "settings";
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String update(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws ServletException, IOException{
+		
+		HttpSession session = request.getSession();
+		String email = (String) session.getAttribute("email");
+		if(email == null){
+			
+			return "login";
+		}
+		
+		Person person = as.getPersonByEmail(email);
+		if(person == null){
+			
+			return "login";
+		}
+		
+			String firstname = request.getParameter("firstname");
+			String lastname = request.getParameter("lastname");
+			String street = request.getParameter("street");
+			String city = request.getParameter("city");
+			String country = request.getParameter("country");
+			String zipcode = request.getParameter("zipcode");
+			
+			Address address = new Address( street,  city,  country,  zipcode);
+			
+			person.setAddress(address);
+			person.setFirstname(firstname);
+			person.setLastname(lastname);
+			
+			as.createPerson(person);
+			return "home";
+		
+	}
+		
 	
 	@RequestMapping(value = "/person/{id}", method = RequestMethod.GET)
 	public ResponseEntity<String> getPerson(@PathVariable("id") String id){

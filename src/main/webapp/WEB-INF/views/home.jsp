@@ -576,8 +576,7 @@ s,
 
         <div class="DashboardProfileCard  module">
 
-    <a class="DashboardProfileCard-bg u-bgUserColor u-block" href="https://twitter.com/Feiyu14" tabindex="-1" aria-hidden="true">
-    <font color="black">Hi ${user} &nbsp;</font></a><a href="/lab3/logout">Log out here.</a>
+    <font color="black">Hi ${user} &nbsp;</font></a><a href="/lab3/logout">Log out here.&nbsp;&nbsp;</a> <a href = "/lab3/settings">Settings</a>
     
 
     <div class="DashboardProfileCard-content">
@@ -589,22 +588,23 @@ s,
 
           <div class="DashboardProfileCard-stats">
     <ul class="DashboardProfileCard-statList Arrange Arrange--bottom Arrange--equal"><li class="DashboardProfileCard-stat Arrange-sizeFit">
-        <a class="DashboardProfileCard-statLink u-textUserColor u-linkClean u-block" title="1 Tweet" href="https://twitter.com/Feiyu14" data-element-term="tweet_stats">
-          <span class="DashboardProfileCard-statLabel u-block">Tweets</span>
-          <span class="DashboardProfileCard-statValue" data-is-compact="false">1</span>
+          <span class="DashboardProfileCard-statLabel u-block">Posts</span>
+          <span class="DashboardProfileCard-statValue" data-is-compact="false">${postsnum}</span>
         </a>
-      </li><li class="DashboardProfileCard-stat Arrange-sizeFit">
-          <a class="DashboardProfileCard-statLink u-textUserColor u-linkClean u-block" title="2 Followers" href="https://twitter.com/followers" data-element-term="following_stats">
-            <span class="DashboardProfileCard-statLabel u-block">Followers</span>
-            <span class="DashboardProfileCard-statValue" data-is-compact="false">2</span>
+      </li>
+      <li class="DashboardProfileCard-stat Arrange-sizeFit">
+            <span class="DashboardProfileCard-statLabel u-block">Friends</span>
+            <span class="DashboardProfileCard-statValue" data-is-compact="false">${friendsnum}</span>
           </a>
         </li>
     </ul>
   </div>
-
-
-      
-
+  <div>
+  Pending Requests:<br>
+  <c:forEach var="e" items="${requests}">
+  Request from: ${e.getRequester().getEmail()} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href = "/lab3/accept/?requesterEmail=${e.getRequester().getEmail()}">Accept&nbsp;&nbsp;&nbsp;&nbsp;<a href = "/lab3/reject/?requesterEmail=${e.getRequester().getEmail()}">Reject <br>
+  </c:forEach>
+  </div>
 
     </div>
   </div>
@@ -690,11 +690,8 @@ s,
         <small class="time">
   <a href="https://twitter.com/relateiq/status/535490227326840832" class="tweet-timestamp js-permalink js-nav js-tooltip" title="9:49 AM - 20 Nov 2014" data-send-impression-cookie=""><span class="_timestamp js-short-timestamp " data-aria-label-part="last" data-time="1416505793" data-time-ms="1416505793000" data-long-form="true">${e.getDate()}</span></a>
 </small>
-
-        
+  
       </div>
-
-      
         <p class="js-tweet-text tweet-text" lang="en" data-aria-label-part="0">${e.getContent()} </p>
 
           <div class="card2 js-media-container" data-card2-name="promo_website">
@@ -715,10 +712,6 @@ s,
     </button>
   </div>
 
-  
-  
-
-  
   <div class="ProfileTweet-action ProfileTweet-action--favorite js-toggleState">
     <button class="ProfileTweet-actionButton js-actionButton js-actionFavorite js-tooltip" title="Favorite" type="button">
       <span class="Icon Icon--favorite"></span>
@@ -728,25 +721,12 @@ s,
         </span>
     </button>
   </div>
-
-  
-    
-
-  
 </div>
 
 
 </div>
-
-      
-
-      
-
     </div>
   </div>
-
-
-
     </div></li>
     </c:forEach>
 </ol>
@@ -770,7 +750,7 @@ s,
   <div class="flex-module">
 
     <div class="flex-module-header">
-      <h3>Who to follow</h3>
+      <h3>Your Friends:</h3>
       
       
       
@@ -778,57 +758,35 @@ s,
 
     <div class="js-recommended-followers dashboard-user-recommendations flex-module-inner" data-section-id="wtf" style="opacity: 1;">  
 
-
-  
-
-
+<c:forEach var = "e" items = "${friends}">
   <div class="js-account-summary account-summary js-actionable-user " data-user-id="245460742" data-feedback-token="117" data-impression-id="">
   
   <div class="content">
-    <a class="account-group js-recommend-link js-user-profile-link user-thumb" href="https://twitter.com/Plaid_Brin" data-user-id="245460742">
-      
-      <span class="account-group-inner js-action-profile-name" data-user-id="245460742">
-        <b class="fullname">Plaid Sergey Brin</b>
-        <span class="username"><s>@</s><span class="js-username">Plaid_Brin</span></span>
-      </span>
-    </a>
+              <b class="fullname">${e.getEmail()} &nbsp;&nbsp;&nbsp;</b> <a href = "/lab3/remove/?id=${e.getId()}">Remove</a>
+
 
 
     <small class="metadata social-context">
     </small>
-    
-<div class="user-actions not-following not-muting" data-user-id="245460742">
-  <button type="button" class="small-follow-btn follow-btn btn small follow-button js-recommended-item">
-    <div class="js-action-follow follow-text action-text">
-      <span class="Icon Icon--follow"></span>
-      Follow
-    </div>
-    <div class="js-action-unfollow following-text action-text">Following</div>
-    <div class="js-action-unfollow unfollow-text action-text">Unfollow</div>
-    <div class="block-text action-text">Blocked</div>
-    <div class="js-action-unblock unblock-text action-text">Unblock</div>
-    <div class="js-action-unfollow pending-text action-text">Pending</div>
-    <div class="js-action-unfollow cancel-req-text action-text">Cancel</div>
-  </button>
-</div>
-
   </div>
 </div>
-
+</c:forEach>
 
 </div>
 
   </div>
+  <form action = "/lab3/add" method = "POST">
     <div class="flex-module import-prompt">
       <div class="flex-module-footer u-table">
-        <a href="https://twitter.com/who_to_follow/import" class="js-tooltip u-tableCell u-alignMiddle" title="Find people you know">
-          <span class="Icon Icon--follower Icon--large"></span><span class="u-hiddenVisually">Find people you know</span>
+          <span class="Icon Icon--follower Icon--large"></span>
         </a>
-        <a class="u-tableCell u-alignMiddle" href="https://twitter.com/who_to_follow/import">Find people you know</a>
-        
-        
+        Find people you know:
+       <input id="newfriend" type="text" autocomplete="off" value="" name="newfriend" maxlength="400" aria-required="true" class="">
+       <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+        <font color = "red">${addpersonerror}</font>
       </div>
   </div>
+  </form>
 
 </div></div>
 

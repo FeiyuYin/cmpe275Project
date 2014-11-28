@@ -9,9 +9,11 @@ import edu.sjsu.cmpe275.dao.CommentDaoImpl;
 import edu.sjsu.cmpe275.dao.OrgDaoImpl;
 import edu.sjsu.cmpe275.dao.PersonDaoImpl;
 import edu.sjsu.cmpe275.dao.PostDaoImpl;
+import edu.sjsu.cmpe275.dao.RequestDaoImpl;
 import edu.sjsu.cmpe275.model.Organization;
 import edu.sjsu.cmpe275.model.Person;
 import edu.sjsu.cmpe275.model.Post;
+import edu.sjsu.cmpe275.model.Request;
 
 public class AllServices {
 
@@ -23,6 +25,8 @@ public class AllServices {
 	PostDaoImpl postDao;
 	@Autowired
 	CommentDaoImpl commentDao;
+	@Autowired
+	RequestDaoImpl requestDao;
 	
 	
 	public void setPersonDao(PersonDaoImpl personDao){
@@ -45,6 +49,10 @@ public class AllServices {
 		this.commentDao = commentDao;
 	}
 	
+	public void setRequestDao(RequestDaoImpl requestDao){
+		
+		this.requestDao = requestDao;
+	}
 	
 	//null if id not exist, otherwise return Person obj 
 	public Person getPersonById(long id){
@@ -255,7 +263,7 @@ public class AllServices {
 		
 		List<Post> result = new ArrayList<Post>();
 		List<Post> posts = postDao.allPost();
-		if(posts == null){return null;}
+		if(posts == null || posts.size() == 0){return null;}
 		for(Post post : posts){
 			
 			if(post.getPerson().getEmail().equals(email)){
@@ -266,5 +274,25 @@ public class AllServices {
 		return result;
 	}
 	
+	public List<Request> getRequestByTarget(String email){
+		
+		List<Request> result = new ArrayList<Request>();
+		List<Request> requests = requestDao.allRequest();
+		if(requests == null || requests.size() == 0){return null;}
+		for(Request r : requests){
+			
+			if(r.getTarget().getEmail().equals(email) && r.getStatus().equals("pending")){
+				
+				result.add(r);
+			}
+		}
+		return result;
+	}
+	
+	public Request createRequest(Request req){
+		
+		requestDao.save(req);
+		return req;
+	}
 	
 }
