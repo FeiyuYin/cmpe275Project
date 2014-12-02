@@ -1,80 +1,199 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+<!DOCTYPE html>
+<!-- saved from url=(0026)https://twitter.com/signup -->
+<html lang="en" data-scribe-reduced-action-queue="true"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta charset="utf-8">
+    
+    <link rel="stylesheet" href="https://abs.twimg.com/a/1417027384/css/t1/twitter_core.bundle.css">
+    <link rel="stylesheet" href="https://abs.twimg.com/a/1417027384/css/t1/twitter_logged_out.bundle.css">
+
+	
+      <title>P</title>
+      
+  </head>
+  <body class="three-col logged-out phx-signup" data-fouc-class-names="swift-loading" dir="ltr">
+
+    <div id="doc" class="route-signup">
+        
+
+        <div id="page-outer">
+          <div id="page-container" class="AppContent wrapper wrapper-signup">
+ 
+<div class="page-canvas">
+  <div class="signup-wrapper">
+
+          <h1>
+            ${email }'s Profile.
+          </h1>
 
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<script>
-function setMethod(i){
+  <div class="textbox">
 
-	if(i == 2){
-		
-		document.getElementById("method").value="DELETE";
-	}
-	if(i == 1){
-		
-		document.getElementById("method").value="POST";
-	}
-}
-</script>
+      <div class="prompt name">
+  <label for="first-name" class="t1-label field-name">First name</label>
+  <div class="field" data-fieldname="name">
+    
+    <input id="firstname" type="text" autocomplete="off"  name="firstname" maxlength="20" aria-required="true" readonly placeholder = "${firstname }">
+  </div>
+</div>
 
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Profile</title>
-</head>
-<body>
-<form:form modelAttribute="profile" id="profileform" method="post">
-<center>
-<table border="0" cellpadding="5" cellspacing="0" width="600">
-<tr>
-<td><b>ID*:</b></td>
-<td><input type="hidden" id="method" name="_method" value=""/>
-<input value='<c:out value="${profile.id}"></c:out>' id="id" name="id" type="text" maxlength="60" style="width:300px; border:1px solid #999999" readonly="readonly"/>
-</td>
+<div class="prompt name">
+  <label for="last-name" class="t1-label field-name">Last name</label>
+  <div class="field" data-fieldname="name">
+    
+    <input id="lastname" type="text" autocomplete="off" name="lastname" maxlength="20" aria-required="true" readonly placeholder = "${lastname }">
+  </div>
+</div>
 
-</tr>
-<tr>
-<td><b>First, Last Name*:</b></td>
-<td>
-<form:input path='firstname' id="firstname" name="firstname" type="text" maxlength="60" style="width:146px; border:1px solid #999999" />
-<form:input path='lastname' id="lastname" name="lastname" type="text" maxlength="60" style="width:146px; border:1px solid #999999" />
-</td>
-</tr>
-<tr>
-<td><b>Email address*:</b></td>
-<td><form:input path='email' id="email" name="email" type="text" maxlength="60" style="width:300px; border:1px solid #999999" /></td>
-</tr>
-<tr>
-<td><b>Address*:</b></td>
-<td><form:input path='address' id="address" name="address" type="text" maxlength="100" style="width:300px; border:1px solid #999999" /></td>
-</tr>
-<tr>
-<td><b>Organization*:</b></td>
-<td><form:input path='organization' id="organization" name="organization" type="text" maxlength="60" style="width:300px; border:1px solid #999999" /></td>
-</tr>
-<tr>
-<td><b>About Myself*:</b></td>
-<td><form:input path='aboutMyself' id="aboutMyself" name="aboutMyself" type="text" maxlength="300" style="width:300px; border:1px solid #999999" /></td>
-</tr>
-<tr>
-<td colspan="2" align="center">
-<br />
-<table border="0" cellpadding="0" cellspacing="0">
+      <div class="prompt Street">
+    <label for="password" class="t1-label field-name">
+      
+      Street
+    </label>
+  <div class="field" data-fieldname="street">
+    
+    <input id="street" type="text" autocomplete="off" name="street" aria-required="true" readonly placeholder = "${street }">
+  </div>
+    
+</div>
 
-</table>
-<br/>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<div>
+City
+  <div class="field" data-fieldname="city">
+    
+    <input id="city" type="text" name="city" autocomplete="off" aria-required="true" readonly placeholder = "${city }">
+  </div>
+    
+</div>
 
-<input id="Update" name="Update" type="submit" value="Update" />
-<input onclick="setMethod(2)" id="Delete" name="Delete" type = "submit" value="Delete"/>
-</td>
-</tr>
-</table>
-</center>
-<br/>
-</form:form>
+<div>
+Country
+  <div class="field" data-fieldname="country">
+    
+    <input id="country" type="text" autocomplete="off" name="country" aria-required="true" readonly placeholder = "${country }">
+  </div>
+    
+</div>
+<div>
+Zipcode
+  <div class="field" data-fieldname="zipcode">
+    
+    <input id="zipcode" type="text" autocomplete="off" name="zipcode" aria-required="true" readonly placeholder = "${zipcode }">
+  </div>
+    
+</div>
+<div>
+Organization
+  <div class="field" data-fieldname="zipcode">
+    
+    <input id="org" type="text" autocomplete="off" name="org" aria-required="true" readonly placeholder = "${org }">
+  </div>
+    
+</div>
+  </div>
+<br>
+  <div class="doit">
 
-</body>
-</html>
+    <div class="sign-up-box">
+      <a href = "/lab3/home">Back</a>
+       
+    </div>
+
+  </div>
+
+  </div>
+</div>
+          </div>
+        </div>
+      
+    </div>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+
+  
+  
+
+     
+
+  
+
+
+  
+
+  
+  
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  
+
+
+   
+
+
+
+
+
+
+
+
+    
+
+    
+    
+  
+
+  
+
+  
+
+    
+  
+
+  
+    
+
+</body></html>

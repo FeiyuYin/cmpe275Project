@@ -44,9 +44,12 @@ public class Post implements Serializable{
 	@Column(name = "content")
 	private String content;
 	
+	@Column(name = "ispublic")
+	private String isPublic;
+	
 	public Post(){}
 	
-	public Post(Person person, String date, int views, int likes, int comments, String content){
+	public Post(Person person, String date, int views, int likes, int comments, String content, String isPublic){
 		
 		this.person = person; 
 		this.date = date; 
@@ -54,6 +57,7 @@ public class Post implements Serializable{
 		this.comments = comments; 
 		this.content = content;
 		this.views = views;
+		this.isPublic = isPublic;
 		
 	}
 	
@@ -65,6 +69,16 @@ public class Post implements Serializable{
 	public long getId(){
 		
 		return this.id;
+	}
+	
+	public void setIsPublic(String isPublic){
+		
+		this.isPublic = isPublic;
+	}
+	
+	public String getIsPublic(){
+		
+		return this.isPublic;
 	}
 	
 	public void setPerson(Person person){

@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Forbidden</title>
 </head>
 <body>
-<h1>404</h1>
-Sorry, the requested user with ID "${id}" does not exist.
+<h1>Request Rejected</h1>
+Sorry, you are not allow to view this page.
 </body>
 </html>

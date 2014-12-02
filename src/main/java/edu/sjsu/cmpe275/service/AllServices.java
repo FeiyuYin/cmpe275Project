@@ -172,8 +172,11 @@ public class AllServices {
 	public Organization getOrgById(long id){
 		
 		return orgDao.getOrgById(id);
+	}
+	
+	public List<Organization> getAllOrg(){
 		
-		
+		return orgDao.allOrg();
 	}
 	
 	//return 404 if id not exist, 400 if has person, otherwise 200.

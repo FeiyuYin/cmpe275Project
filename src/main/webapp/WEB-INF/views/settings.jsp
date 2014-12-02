@@ -86,13 +86,22 @@ Zipcode
     
     <input id="zipcode" type="text" autocomplete="off" name="zipcode" aria-required="true" placeholder = "${zipcode }">
   </div>
-    
 </div>
-<div>
-    
-</div>
-  </div>
 
+<div>
+Organization
+  <div class="field" data-fieldname="zipcode">
+    <select name="org" size="1">
+    <option>${org}</option>
+    <c:forEach var="e" items="${orgs}">
+       <option>${e.getName()}</option>
+    </c:forEach>
+    </select>
+  </div>
+</div>
+
+  </div>
+<br>
   <div class="doit">
 
     <div class="sign-up-box">
@@ -109,88 +118,5 @@ Zipcode
         </div>
       
     </div>
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-
-
-
-
-
-  
-  
-
-     
-
-  
-
-
-  
-
-  
-  
-
-  
-
-
-
-
-
-  
-
-
-
-  
-
-  
-
-
-
-
-
-  
-
-
    
-
-
-
-
-
-
-
-
-    
-
-    
-    
-  
-
-  
-
-  
-
-    
-  
-
-  
-    
-
 </body></html>

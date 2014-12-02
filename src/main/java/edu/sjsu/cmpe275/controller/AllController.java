@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -179,11 +176,20 @@ public  class AllController {
 		int friendsNum = person.getPersons().size();
 		
 		ArrayList<Post> posts = (ArrayList<Post>) as.getPostByEmail(email);
-		int postsNum = posts.size();
+		int postsNum = 0;
+		if(posts != null){postsNum =posts.size();}
+		 
 		for(Person p : person.getPersons()){
 			
 			ArrayList<Post> tmp = (ArrayList<Post>) as.getPostByEmail(p.getEmail());
-			posts.addAll(tmp);
+			if(tmp != null){
+				
+				for(Post post : tmp){
+					
+					if(post.getIsPublic().equals("Public")){posts.add(post);}
+				}
+			}
+			
 		}
 		
 		model.put("user", email);
@@ -193,6 +199,7 @@ public  class AllController {
 		model.put("postsnum", postsNum);
 		model.put("friendsnum", friendsNum);
 		model.put("friends", person.getPersons());
+		
 		//request.setAttribute("user", email);
 		//request.setAttribute("posts", posts);
 
@@ -218,12 +225,13 @@ public  class AllController {
 		String email = (String) session.getAttribute("email");
 		Person person = as.getPersonByEmail(email);
 		String content = request.getParameter("content");
+		String isPublic = request.getParameter("ispublic");
 		
 		DateFormat dateFormat = new SimpleDateFormat("/MM/dd/yyyy");
 		Calendar calobj = Calendar.getInstance();
 		String date = dateFormat.format(calobj.getTime());
 		
-		Post post = new Post( person,  date,  0,  0,  0,  content);
+		Post post = new Post( person,  date,  0,  0,  0,  content, isPublic);
 		as.createPost(post);
 		
 		response.sendRedirect("/lab3/home");
@@ -259,7 +267,6 @@ public  class AllController {
 		
 		HttpSession session = request.getSession();
 		String email = (String) session.getAttribute("email");
-		Person person = as.getPersonByEmail(email);
 		Person requester = as.getPersonByEmail(requesterEmail);
 		
 		ArrayList<Request> reqs = (ArrayList<Request>) as.getRequestByTarget(email);
@@ -347,19 +354,73 @@ public  class AllController {
 			
 			return "login";
 		}
-		
+		ArrayList<Organization> orgs = (ArrayList<Organization>) as.getAllOrg();
 		model.put("firstname", person.getFirstname());
 		model.put("lastname", person.getLastname());
 		model.put("street", person.getAddress()==null?null:person.getAddress().getStreet());
 		model.put("city", person.getAddress()==null?null:person.getAddress().getCity());
 		model.put("country", person.getAddress()==null?null:person.getAddress().getCountry());
 		model.put("zipcode", person.getAddress()==null?null:person.getAddress().getZip());
-		
+		model.put("org", person.getOrg()==null?null:person.getOrg().getName());
+		model.put("orgs", orgs);
 		return "settings";
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws ServletException, IOException{
+	public void update(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws ServletException, IOException{
+		
+		HttpSession session = request.getSession();
+		String email = (String) session.getAttribute("email");
+		if(email == null){
+			
+			response.sendRedirect("/lab3/login");
+		}
+		else{
+			
+			
+			Person person = as.getPersonByEmail(email);
+			if(person == null){
+				
+				response.sendRedirect("/lab3/login"); 
+			}
+			else{
+				
+				String firstname = request.getParameter("firstname");
+				String lastname = request.getParameter("lastname");
+				String street = request.getParameter("street");
+				String city = request.getParameter("city");
+				String country = request.getParameter("country");
+				String zipcode = request.getParameter("zipcode");
+				String orgName = request.getParameter("org");
+				
+				Address address = new Address( street,  city,  country,  zipcode);
+				
+				ArrayList<Organization> orgs = (ArrayList<Organization>) as.getAllOrg();
+				for(Organization o : orgs){
+					
+					if(o.getName().equals(orgName)){
+						
+						person.setOrg(o);
+					}
+				}
+				
+				person.setAddress(address);
+				person.setFirstname(firstname);
+				person.setLastname(lastname);
+				
+				as.createPerson(person);
+				response.sendRedirect("/lab3/home");
+			}
+			
+
+		}
+
+		
+	}
+	
+	@RequestMapping(value = "/profile/{id}", method = RequestMethod.GET)
+	public String profile(@PathVariable("id") String pid, HttpServletRequest request, HttpServletResponse response, ModelMap model){
+		
 		
 		HttpSession session = request.getSession();
 		String email = (String) session.getAttribute("email");
@@ -373,23 +434,96 @@ public  class AllController {
 			
 			return "login";
 		}
+		Person p = as.getPersonById(Long.parseLong(pid));
+		if(p != null){
+			
+			for(Person tmp : person.getPersons()){
+				
+				if(tmp.getId() == Long.parseLong(pid)){
+					
+					model.put("email", p.getEmail());
+					model.put("firstname", p.getFirstname());
+					model.put("lastname", p.getLastname());
+					model.put("street", p.getAddress()==null?null:p.getAddress().getStreet());
+					model.put("city", p.getAddress()==null?null:p.getAddress().getCity());
+					model.put("country", p.getAddress()==null?null:p.getAddress().getCountry());
+					model.put("zipcode", p.getAddress()==null?null:p.getAddress().getZip());
+					model.put("org", p.getOrg()==null?null:p.getOrg().getName());
+					
+					return "profile";
+				}
+			}
+		}
+		return "404page";
+	}
+	
+	@RequestMapping(value = "/createorg", method = RequestMethod.GET)
+	public String getCreateorgPage(@RequestParam(value="error", required=false) String error, HttpServletRequest request, HttpServletResponse response, ModelMap model){
 		
-			String firstname = request.getParameter("firstname");
-			String lastname = request.getParameter("lastname");
-			String street = request.getParameter("street");
-			String city = request.getParameter("city");
-			String country = request.getParameter("country");
-			String zipcode = request.getParameter("zipcode");
+		HttpSession session = request.getSession();
+		String email = (String) session.getAttribute("email");
+		if(email == null){
 			
-			Address address = new Address( street,  city,  country,  zipcode);
-			
-			person.setAddress(address);
-			person.setFirstname(firstname);
-			person.setLastname(lastname);
-			
-			as.createPerson(person);
-			return "home";
+			return "login";
+		}
 		
+		Person person = as.getPersonByEmail(email);
+		if(person == null){
+			
+			return "login";
+		}
+		if(error == null){
+			
+			model.put("noname", "");
+		}
+		else if(error.equals("noname")){
+			
+			model.put("noname", "Name is required.");
+		}
+		else{model.put("noname", "");}
+		return "orgcreation";
+	}
+	
+	@RequestMapping(value = "/createorg", method = RequestMethod.POST)
+	public void ceateorg(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		
+		HttpSession session = request.getSession();
+		String email = (String) session.getAttribute("email");
+		if(email == null){
+			
+			response.sendRedirect("/lab3/login");
+			return;
+		}
+		
+		Person person = as.getPersonByEmail(email);
+		if(person == null){
+			
+			response.sendRedirect("/lab3/login");
+			return;
+		}
+		
+		if(request.getParameter("name") == null || request.getParameter("name").equals("")){
+					
+					response.sendRedirect("/lab3/createorg?error=noname");
+					return;
+				}
+				else{
+					
+					String name = request.getParameter("name");
+					String street = request.getParameter("street");
+					String city = request.getParameter("city");
+					String country = request.getParameter("country");
+					String zipcode = request.getParameter("zipcode");
+					String des = request.getParameter("des");
+					
+					Address address = new Address( street,  city,  country,  zipcode);
+					
+					Organization org = new Organization( name,  des, address);
+					
+					as.createOrg(org);
+					response.sendRedirect("/lab3/home");
+					return;
+				}
 	}
 		
 	

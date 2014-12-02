@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://abs.twimg.com/a/1417027384/css/t1/twitter_logged_out.bundle.css">
 
 	
-      <title>Sign up</title>
+      <title>Create Organization</title>
       
   </head>
   <body class="three-col logged-out phx-signup" data-fouc-class-names="swift-loading" dir="ltr">
@@ -28,36 +28,21 @@
   <div class="signup-wrapper">
 
           <h1>
-            Join Us Today.
+            Create An Organization.
           </h1>
 
-    <form id="phx-signup-form" method="POST" action="/lab3/signup" class="t1-form ">
+    <form id="phx-signup-form" method="POST" action="/lab3/createorg" class="t1-form ">
 
   <div class="textbox">
 
       <div class="prompt name">
-  <label for="first-name" class="t1-label field-name">First name</label>
+  <label for="first-name" class="t1-label field-name">Organization name</label>
   <div class="field" data-fieldname="name">
     
-    <input id="firstname" type="text" autocomplete="off"  name="firstname" maxlength="20" aria-required="true">
+    <input id="name" type="text" autocomplete="off"  name="name" maxlength="20" aria-required="true"><font color="red">${noname}</font>
   </div>
 </div>
 
-<div class="prompt name">
-  <label for="last-name" class="t1-label field-name">Last name</label>
-  <div class="field" data-fieldname="name">
-    
-    <input id="lastname" type="text" autocomplete="off" name="lastname" maxlength="20" aria-required="true" >
-  </div>
-</div>
-
-      <div class="prompt email">
-  <label for="email" class="t1-label field-name">Email address <font color="red">${noemail}</font><font color="red">${emailexist}</font></label>
-  <div class="field" data-fieldname="email">
-
-    <input id="email" name = "email" class="email-input" type="text" autocomplete="off"  aria-required="true">
-  </div>
-</div>
 
       <div class="prompt Street">
     <label for="password" class="t1-label field-name">
@@ -97,10 +82,10 @@ Zipcode
     
 </div>
 <div>
-Create a password
+Description
   <div class="field" data-fieldname="password">
     
-    <input id="password" name = "password" type="password" autocomplete="off" name="user[user_password]" aria-required="true">
+    <input id="des" name = "des" type="text" autocomplete="off" name="user[user_password]" aria-required="true">
   </div>
     
 </div>
@@ -109,7 +94,7 @@ Create a password
   <div class="doit">
 
     <div class="sign-up-box">
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>&nbsp;&nbsp; <a href = "/lab3/login" >Log in</a>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>&nbsp;&nbsp; <a href = "/lab3/home" >Back</a>
        
     </div>
 
@@ -122,5 +107,88 @@ Create a password
         </div>
       
     </div>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+
+  
+  
+
+     
+
+  
+
+
+  
+
+  
+  
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  
+
+
+   
+
+
+
+
+
+
+
+
+    
+
+    
+    
+  
+
+  
+
+  
+
+    
+  
+
+  
+    
 
 </body></html>
